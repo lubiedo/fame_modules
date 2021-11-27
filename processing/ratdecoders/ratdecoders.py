@@ -25,7 +25,7 @@ class RATDecoders(ProcessingModule):
 
     name = "rat_decoders"
     description = "Run rat_decoders on unpacked executables in order to detect known malware families and extract their configurations."
-    acts_on = "unpacked_executable"
+    acts_on = ["unpacked_executable"]
 
     def initialize(self):
         if not HAVE_YARA:
