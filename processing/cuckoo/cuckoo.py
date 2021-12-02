@@ -163,6 +163,7 @@ class Cuckoo(ProcessingModule):
         parser = ijson.parse(report)
         self.results['signatures'] = []
         signature = dict()
+        iocs = []
 
         for prefix, event, value in parser:
             if prefix == "signatures.item" and event == "end_map":
@@ -178,8 +179,11 @@ class Cuckoo(ProcessingModule):
             elif prefix == "info.score":
                 self.results['score'] = float(value)
             elif prefix in ["network.domains.item.domain", "network.hosts.item.ip", "network.http.item.uri"]:
-                if value not in ["8.8.8.8", "8.8.4.4"]:
-                    self.add_ioc(value)
+                if value not in ["8.8.8.8", "8.8.4.4"] and value not in iocs:
+                    iocs.append(value)
+
+        if len(iocs):
+            self.add_ioc(iocs)
 
     def get_memory_dump(self):
         url = urljoin(self.web_endpoint, '/full_memory/{0}/'.format(self.task_id))
