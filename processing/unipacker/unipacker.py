@@ -33,6 +33,7 @@ class Unipacker(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: unipacker")
         return True
 
+
     def unpack(self, file):
         event = threading.Event()
         client = SimpleClient(event)

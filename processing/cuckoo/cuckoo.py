@@ -59,10 +59,10 @@ class Cuckoo(ProcessingModule):
             'option': True
         },
         {
-            'name': 'allow_internet_access',
-            'type': 'bool',
-            'default': True,
-            'description': 'This allows full Internet access to the VM running the malware.',
+            'name': 'network_routing',
+            'type': 'str',
+            'default': 'internet',
+            'description': 'Network routing type: none, drop, internet, inetsim, tor, vpn.',
             'option': True
         }
     ]
@@ -108,10 +108,11 @@ class Cuckoo(ProcessingModule):
         return True
 
     def define_options(self):
-        if self.allow_internet_access:
-            route = "internet"
+        routing = ['none','drop','internet','inetsim','tor','vpn']
+        if self.network_routing in routing:
+            route = self.network_routing
         else:
-            route = "drop"
+            route = "none"
 
         return {
             'timeout': self.analysis_time,
