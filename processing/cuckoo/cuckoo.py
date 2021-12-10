@@ -124,7 +124,7 @@ class Cuckoo(ProcessingModule):
         return {
             'timeout': self.analysis_time,
             'enforce_timeout': True,
-            'options': 'route={}&human={:d}'.format(route, self.simulated_human_interaction)
+            'options': 'route={},human={:d}'.format(route, int(self.simulated_human_interaction))
         }
 
     def submit_file(self, filepath, options):
