@@ -64,6 +64,13 @@ class Cuckoo(ProcessingModule):
             'default': 'internet',
             'description': 'Network routing type: none, drop, internet, inetsim, tor, vpn.',
             'option': True
+        },
+        {
+            'name': 'simulated_human_interaction',
+            'type': 'bool',
+            'default': True,
+            'description': 'Enable Simulated Human Interaction. Disable if manual interaction is needed.',
+            'option': True
         }
     ]
 
@@ -117,7 +124,7 @@ class Cuckoo(ProcessingModule):
         return {
             'timeout': self.analysis_time,
             'enforce_timeout': True,
-            'options': 'route={}'.format(route)
+            'options': 'route={}&human={:d}'.format(route, self.simulated_human_interaction)
         }
 
     def submit_file(self, filepath, options):
